@@ -18,12 +18,12 @@ Proyecto 1: `Tipping Bucket Rain Gauge`
 
 Proyecto 2: `Sistema de medición de nivel y llenado de tanques de agua para un campo ganadero`
 
-| Proyecto   |                   | Tiempo de Implementación(10) | Aporte de nuevos conocimientos (9) | Utilidad del Sistema (8) | Disponibilidad de módulos de hardware (5) | Peso Final |
-|------------|-------------------|------------------------------|------------------------------------|--------------------------|-------------------------------------------|------------|
-| Proyecto 1 | Puntaje           |8                             |10                                  |9                         |9                                          |            |
-| Proyecto 1 | Puntaje Ponderado |80                            |90                                  |72                        |45                                         |287         |
-| Proyecto 2 | Puntaje           |8                             |7                                   |9                         |7                                          |            |
-| Proyecto 2 | Puntaje Ponderado |80                            |63                                  |72                        |35                                         |250         |
+| Proyecto      |                   | Tiempo de Implementación(10) | Aporte de nuevos conocimientos (9) | Utilidad del Sistema (8) | Disponibilidad de módulos de hardware (5) | Peso Final |
+|---------------|-------------------|------------------------------|------------------------------------|--------------------------|-------------------------------------------|------------|
+| Proyecto 1    | Puntaje           |8                             |10                                  |9                         |9                                          |            |
+| Proyecto 1    | Puntaje Ponderado |80                            |90                                  |72                        |45                                         |287         |
+| Proyecto 2    | Puntaje           |8                             |7                                   |9                         |7                                          |            |
+| Proyecto 2    | Puntaje Ponderado |80                            |63                                  |72                        |35                                         |250         |
 
 _Tabla 1: Comparación de puntajes ponderados de los proyectos candidatos para trabajo final_
 
