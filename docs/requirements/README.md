@@ -3,8 +3,8 @@
 ### Selección del proyecto a implementar
 
 Uno de los propósitos de tomar este seminario fue el de desarrollar un sistema que tenga utilidad en la actividad empresarial en la que el alumno se desarrolla. Por ello, es que se debió elegir entre estos dos proyectos:
-* Sistema de medición de nivel y llenado de tanques de agua para un campo ganadero
 * Tipping Bucket Rain Gauge (Pluviómetro Digital por Balancín)
+* Sistema de medición de nivel y llenado de tanques de agua para un campo ganadero
 
 Los aspectos a analizar a la hora de elegir entre los dos proyectos son:
 * Tiempo de implementación
@@ -88,8 +88,8 @@ La Tabla 3 presenta los requerimientos del proyecto.
 
 | Grupo de Requerimiento         | ID de Requerimiento                       | Descripción                                                                                                                                                                                                   |
 |--------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Sensado                        | 1.1                                       | El sistema medirá precipitaciones con una resolución de 0.2mm.                                                                                                                                                |
-| Sensado                        | 1.2                                       | El sistema medirá latitud y longitud con un error menor a 100m.                                                                                                                                               |
+| Sensado                        | 1.1                                       | El sistema medirá precipitaciones con una resolución de 0,2 mm.                                                                                                                                                |
+| Sensado                        | 1.2                                       | El sistema medirá latitud y longitud con un error menor a 100 m.                                                                                                                                               |
 | Sensado                        | 1.3                                       | El sistema dispondrá de las mediciones de precipitación de los últimos 100 días.                                                                                                                              |
 | Conectividad                   | 2.1                                       | El sistema enviará datos a un servidor externo.                                                                                                                                                               |
 | Conectividad                   | 2.2                                       | En caso de haber mala conectividad, el dispositivo almacenará los datos hasta que la conexión se restablezca.                                                                                                 |
@@ -141,5 +141,5 @@ _Tabla 5: Diagrama de caso de uso número 2. Obtención de la posición del pluv
 
 
 
-_Tabla 5: Diagrama de caso de uso número 3. Encendido del pluviómetro._
+_Tabla 6: Diagrama de caso de uso número 3. Encendido del pluviómetro._
 
