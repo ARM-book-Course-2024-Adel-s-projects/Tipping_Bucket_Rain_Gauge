@@ -15,6 +15,7 @@ Los aspectos a analizar a la hora de elegir entre los dos proyectos son:
 En la Tabla 1 se aprecia una comparativa de los pesos de ambos proyectos. El proyecto con más peso final es el que resultará elegido como trabajo final.
 
 Proyecto 1: `Tipping Bucket Rain Gauge`
+
 Proyecto 2: `Sistema de medición de nivel y llenado de tanques de agua para un campo ganadero`
 
 | Proyecto   |                   | Tiempo de Implementación(10) | Aporte de nuevos conocimientos (9) | Utilidad del Sistema (8) | Disponibilidad de módulos de hardware (5) | Peso Final |
@@ -98,7 +99,8 @@ La Tabla 3 presenta los requerimientos del proyecto.
 | Tiempo de Ejecución            | 6.1                                       | El proyecto se entregará antes del 17 de Septiembre de 2024.                                                                                                                                                  |
 | Manual de uso y Documentación  | 7.1                                       | El código del sistema embebido estará disponible en un repositorio git, acompañado de un informe detallado con lista de partes, diagramas de conexión, requerimientos cumplidos, forma de uso y conclusiones. |
 | Costo                          | 8.1                                       | El costo del dispositivo será menor a los 200 dólares.                                                                                                                                                        |
- _Tabla 3: Requerimientos del sistema_
+
+_Tabla 3: Requerimientos del sistema_
 
 #### Casos de uso
 
