@@ -67,7 +67,7 @@ Existen varios sistemas para medir precipitaciones en el mercado. En la Tabla 2 
 | API para HTTP Requests | Sí                                        | No                                        |
 | Sensores               | Pluviómetro de cubeta Basculante          | Pluviómetro + Anemómetro + Sensor de T°   |
 | Alimentación           | Baterías AA                               | Sin batería (transformador a 220V)        |
-| Precio                 | 875USD + IVA                              | 528USD + IVA                              |
+| Precio                 | 822USD + IVA                              | 528USD + IVA                              |
 | Posicionamiento GNSS   | No                                        | No                                        |
 | SD Card                | Sí                                        | Sí                                        |
 
@@ -76,6 +76,10 @@ _Tabla 2: Comparación entre dos productos de medición de precipitaciones dispo
 El sistema de Omixom es el que más se asemeja al dispositivo que se quiere construir. La principal limitante para el establecimiento es su precio. Si se quieren instalar varios pluviómetros con fines experimentales, el precio no justificará las pruebas.
 
 Por otro lado, la flexibilidad que da el sistema que va a desarrollarse es clave a la hora de mutar el proyecto. Si bien este prototipo al principio busca medir precipitaciones, en el futuro pueden agregarse sensores de temperatura, radiación solar, anemómetro, etc, a un costo no tan elevado. Se puede también variar la frecuencia a la que el dispositivo envía los datos al servidor (e incluso, migrar a un web server embebido).
+
+Links:
+* [Omixom OMX-Rain](https://www.agrofy.com.ar/pluviometro-omixom-omx-rain-modelo-gprs.html)
+* [Daza DZH2900](https://www.donagro.com.ar/estacion-meteorologica-daza-dzwh-2900-wifi-solar-remota-1820.html)
 
 #### Requerimientos
 
