@@ -31,7 +31,7 @@ AT+CREG?     (Verifica si la SIM está registrada en la red)
 +CREG: 0,1   (Registrado)
 OK
 
-AT+CSTT="internet.claro.com.ar","",""  (Configura el APN)
+AT+CSTT="internet.ctimovil.com.ar","",""  (Configura el APN)
 OK
 
 AT+CIICR     (Activa la conexión GPRS)
