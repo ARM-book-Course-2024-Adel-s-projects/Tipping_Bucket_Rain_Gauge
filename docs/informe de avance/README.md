@@ -57,3 +57,9 @@ AT+CIPSHUT   (Desactiva la conexión GPRS)
 SHUT OK
 
 ```
+
+### 15/08/24
+
+Encontré el problema en el módulo sim800L.
+
+Para que conecte, necesita un capacitor que haga de pulmón en los picos de corriente. Puse uno de 1000 uF a la entrada de la alimentación del módulo y automáticamente comenzó a funcionar.
