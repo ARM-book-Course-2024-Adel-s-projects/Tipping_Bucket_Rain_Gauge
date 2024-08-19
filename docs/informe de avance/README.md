@@ -63,3 +63,50 @@ SHUT OK
 Encontré el problema en el módulo sim800L.
 
 Para que conecte, necesita un capacitor que haga de pulmón en los picos de corriente. Puse uno de 1000 uF a la entrada de la alimentación del módulo y automáticamente comenzó a funcionar.
+
+### 18/08/24
+
+Se logró enviar mensajes al server remoto con la siguiente secuencia de comandos:
+
+```bash
+
+AT           (Verifica que el módulo esté listo)
+OK
+
+ATE0         (Desactiva el eco)
+OK
+
+AT+CSQ       (Verifica la intensidad de la señal)
++CSQ: 15,0   (Señal aceptable)
+OK
+
+AT+CREG?     (Verifica si la SIM está registrada en la red)
++CREG: 0,1   (Registrado)
+OK
+
+AT+CSTT="wap.gprs.unifon.com.ar","wap","wap"  (Configura el APN)
+OK
+
+AT+CIICR     (Activa la conexión GPRS)
+OK
+
+AT+CIFSR     (Obtiene la IP asignada)
+100.72.184.117
+
+AT+CIPSTART="TCP","192.168.1.100","80"  (Establece la conexión TCP)
+OK
+CONNECT OK
+
+AT+CIPSEND   (Prepara el envío de datos)
+>
+
+Hello Server (Envía los datos)
+SEND OK
+
+AT+CIPCLOSE  (Cierra la conexión TCP)
+CLOSE OK
+
+AT+CIPSHUT   (Desactiva la conexión GPRS)
+SHUT OK
+
+```

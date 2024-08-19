@@ -21,7 +21,21 @@ void loop() {
   // Aquí puedes agregar más comandos AT o procesos adicionales
   if(Serial.available()) {
     String command = Serial.readString();
-    sendATCommand(command);
+    if ( command.indexOf("CIPSEND") != -1) {
+      sendATCommand(command);
+      Serial2.print("Hello server!");
+      Serial2.write(0x1A);
+      while(!Serial.available()) {
+        ;
+      }
+      String text = Serial.readString();
+      Serial.write("Cerrando!");
+      Serial2.print(text);
+      Serial2.write(0x1A);
+      Serial2.println("");
+    } else {
+      sendATCommand(command);
+    }
   } else if(Serial2.available()) {
     String response = Serial2.readString();
     Serial.print("Received: ");
