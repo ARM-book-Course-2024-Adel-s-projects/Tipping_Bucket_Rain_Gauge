@@ -8,7 +8,9 @@ static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
 
-void updateGprs(gprs_t *gprsModule) {
+gprs_t gprsModule;
+
+void updateGprs() {
     switch(gprsModule->state) {
 
         case INITIAL_STATUS:
@@ -26,7 +28,7 @@ void updateGprs(gprs_t *gprsModule) {
     }
 }
 
-void initGprs(gprs_t *gprsModule) {
+void initGprs() {
     gprsModule->state = INITIAL_STATUS;
 }
 

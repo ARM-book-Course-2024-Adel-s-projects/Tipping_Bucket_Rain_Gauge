@@ -52,7 +52,7 @@ typedef struct gprs {
     gprs_state_t state;
 } gprs_t;
 
-void updateGprs(gprs_t*);
-void initGprs(gprs_t*);
+void updateGprs();
+void initGprs();
 
 #endif
