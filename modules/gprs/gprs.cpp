@@ -1,24 +1,50 @@
 #include "gprs.h"
 
-typedef enum {
-    INITIAL_STATUS, // AT
-    CHECKING_IF_READY_TO_START,
-    REQUESTING_SIGNAL_QUALITY, // AT+CSQ
-    ANALYZING_SIGNAL_QUALITY,
-    REQUESTING_NETWORK_REGISTRATION_STATUS, // AT+CREG?
-    ANALYZING_NETWORK_REGISTRATION_STATUS,
-    SETTING_FULL_OPERATION_MODE,  // AT+CFUN=1
-    ANALYZING_FULL_OPERATION_MODE_VALUE,
-    REQUESTING_SIM_AVAILABILITY, // AT+CPIN?
-    ANALYZING_SIM_AVAILABILITY,
-    REGISTERING_TO_APN, // AT+CSTT="<your_apn>","<user>","<password>"
-    ANALYZING_APN_REGISTRATION,
-    SETTING_INTERNET_PROTOCOL_CONTEXT, // AT+CIICR
-    ANALYZING_INTERNET_PROTOCOL_CONTEXT,
-    STABLISHING_REMOTE_SERVER_CONNECTION, // AT+CIPSTART="TCP","<server_public_ip>",">server_port>"
-    ANALYZING_REMOTE_SERVER_CONNECTION,
-    READY_TO_SEND_DATA,
-    SENDING_DATA, // AT+CIPSEND
-    CHECKING_IF_DATA_WAS_CORRECTLY_SENT,
-    CLOSING_CONNECTION, // AT+CIPCLOSE
-} gprs_state_t;
+static void ping(void);
+static void waitPingResponse(gprs_t*);
+static void checkSignalQuality(gprs_t*);
+
+static UnbufferedSerial gprsSerial(USBTX, USBRX, 9600);
+
+void updateGprs(gprs_t *gprsModule) {
+    switch(gprsModule->state) {
+
+        case INITIAL_STATUS:
+            ping();
+            gprsModule->state = WAITING_FOR_PING_RESPONSE;
+            break;
+
+        case WAITING_FOR_PING_RESPONSE:
+            waitPingResponse(gprsModule);
+            break;
+        
+        case REQUESTING_SIGNAL_QUALITY:
+            checkSignalQuality(gprsModule);
+            break;
+    }
+}
+
+void initGprs(gprs_t *gprsModule) {
+    gprsModule->state = INITIAL_STATUS;
+}
+
+void ping() {
+    gprsSerial.write(AT);
+}
+
+void waitPingResponse(gprs_t *gprsModule) {
+    char expectedResponse[] = "OK";
+
+    gprsModule->state = INITIAL_STATUS;
+
+    if (gprsSerial.readable()) {
+        char response[] = gprsSerial.read();
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule->state = REQUESTING_SIGNAL_QUALITY;
+        }
+    }
+}
+
+void checkSignalQuality(gprs_t *gprsModule) {
+
+}

@@ -1,12 +1,55 @@
 #ifndef _GPRS_
 #define _GPRS_
 
-#define ACCESS_POINT_NAME "wap.gprs.unifon.com.ar" // Movistar
-#define APN_USER "wep"
-#define APN_PASSWORD "wep"
+#define ACCESS_POINT_NAME "\"wap.gprs.unifon.com.ar\"" // Movistar
+#define APN_USER "\"wep\""
+#define APN_PASSWORD "\"wep\""
 
 #define PROVIDER_NAME "UNIFON"
-#define REMOTE_SERVER_PUBLIC_IP ""
-#define SOCKET_PORT "1111"
+
+#define COMMA ","
+
+#define REMOTE_SERVER_PUBLIC_IP "\"0.0.0.0\""
+#define SOCKET_PORT "\"1111\""
+#define CONNECTION_TYPE "\"TCP\""
+
+#define SERVER_INFO CONNECTION_TYPE COMMA REMOTE_SERVER_PUBLIC_IP COMMA SOCKET_PORT
+
+#define MIN_SIGNAL_QUALITY_VALUE 5
+
+#define AT "AT\n\r"
+#define CSQ "AT+CSQ\n\r"
+
+typedef enum {
+    INITIAL_STATUS, // AT
+    WAITING_FOR_PING_RESPONSE,
+    REQUESTING_SIGNAL_QUALITY, // AT+CSQ
+    ANALYZING_SIGNAL_QUALITY,
+    REQUESTING_NETWORK_REGISTRATION_STATUS, // AT+CREG?
+    ANALYZING_NETWORK_REGISTRATION_STATUS,
+    SETTING_FULL_OPERATION_MODE,  // AT+CFUN=1
+    ANALYZING_FULL_OPERATION_MODE_VALUE,
+    REQUESTING_SIM_AVAILABILITY, // AT+CPIN?
+    ANALYZING_SIM_AVAILABILITY,
+    REGISTERING_TO_APN, // AT+CSTT="<your_apn>","<user>","<password>"
+    ANALYZING_APN_REGISTRATION,
+    SETTING_INTERNET_PROTOCOL_CONTEXT, // AT+CIICR
+    ANALYZING_INTERNET_PROTOCOL_CONTEXT,
+    STABLISHING_REMOTE_SERVER_CONNECTION, // AT+CIPSTART="TCP","<server_public_ip>",">server_port>"
+    ANALYZING_REMOTE_SERVER_CONNECTION,
+    READY_TO_SEND_DATA,
+    SENDING_DATA, // AT+CIPSEND
+    CHECKING_IF_DATA_WAS_CORRECTLY_SENT,
+    CLOSING_CONNECTION, // AT+CIPCLOSE
+    RESTARTING_MODULE, // AT+A&F
+    ANALYZING_MODULE_RESTART,
+} gprs_state_t;
+
+typedef struct gprs {
+    gprs_state_t state;
+} gprs_t;
+
+void updateGprs(gprs_t*);
+void initGprs(gprs_t*);
 
 #endif
