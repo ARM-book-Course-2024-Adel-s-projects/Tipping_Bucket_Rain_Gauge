@@ -2,8 +2,8 @@
 #include "serial_interface.h"
 
 static void ping(void);
-static void waitPingResponse(gprs_t*);
-static void checkSignalQuality(gprs_t*);
+static void waitPingResponse();
+static void checkSignalQuality();
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
@@ -11,19 +11,19 @@ static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
 gprs_t gprsModule;
 
 void updateGprs() {
-    switch(gprsModule->state) {
+    switch(gprsModule.state) {
 
         case INITIAL_STATUS:
             ping();
-            gprsModule->state = WAITING_FOR_PING_RESPONSE;
+            gprsModule.state = WAITING_FOR_PING_RESPONSE;
             break;
 
         case WAITING_FOR_PING_RESPONSE:
-            waitPingResponse(gprsModule);
+            waitPingResponse();
             break;
         
         case REQUESTING_SIGNAL_QUALITY:
-            checkSignalQuality(gprsModule);
+            checkSignalQuality();
             break;
     }
 }
@@ -40,10 +40,10 @@ void ping() {
     #endif
 }
 
-void waitPingResponse(gprs_t *gprsModule) {
+void waitPingResponse() {
     char expectedResponse[] = "OK";
 
-    gprsModule->state = INITIAL_STATUS;
+    gprsModule.state = INITIAL_STATUS;
 
     if (gprsSerial.readable()) {
         
@@ -51,7 +51,7 @@ void waitPingResponse(gprs_t *gprsModule) {
         readString(response);
         
         if(strstr(response, expectedResponse) != NULL) {
-            gprsModule->state = REQUESTING_SIGNAL_QUALITY;
+            gprsModule.state = REQUESTING_SIGNAL_QUALITY;
 
             #ifdef LOG
             logMessage("REQUESTING SIGNAL QUALITY");
@@ -60,7 +60,7 @@ void waitPingResponse(gprs_t *gprsModule) {
     }
 }
 
-void checkSignalQuality(gprs_t *gprsModule) {
+void checkSignalQuality() {
     
 }
 
