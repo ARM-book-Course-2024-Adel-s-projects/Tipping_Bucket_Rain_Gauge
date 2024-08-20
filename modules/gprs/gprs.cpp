@@ -46,7 +46,7 @@ void initGprs() {
     gprsModule.state = INITIAL_STATUS;
 }
 
-void ping() {
+static void ping(void) {
     gprsModule.state = WAITING_FOR_PING_RESPONSE;
 
     gprsSerial.write(AT, sizeof(AT));
@@ -56,7 +56,7 @@ void ping() {
     #endif
 }
 
-void waitPingResponse() {
+static void waitPingResponse(void) {
     char expectedResponse[] = "OK";
 
     gprsModule.state = INITIAL_STATUS;
@@ -76,7 +76,7 @@ void waitPingResponse() {
     }
 }
 
-static getSignalQuality() {
+static void getSignalQuality(void) {
     gprsModule.state = ANALYZING_SIGNAL_QUALITY;
     gprsSerial.write(CSQ, sizeof(CSQ));
 
@@ -85,7 +85,7 @@ static getSignalQuality() {
     #endif
 }
 
-static void checkSignalQuality() {
+static void checkSignalQuality(void) {
     char expectedResponse[] = "OK";
 
     gprsModule.state = INITIAL_STATUS;
