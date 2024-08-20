@@ -86,7 +86,7 @@ static void getSignalQuality(void) {
 }
 
 static void checkSignalQuality(void) {
-    char expectedResponse[] = "OK";
+    char expectedResponse[] = "+CSQ";
 
     gprsModule.state = INITIAL_STATUS;
 
@@ -115,7 +115,7 @@ static void getNetworkRegistrationStatus(void) {
 }
 
 static void checkNetworkRegistrationStatus(void) {
-    char expectedResponse[] = "OK";
+    char expectedResponse[] = "+CREG?";
 
     gprsModule.state = INITIAL_STATUS;
 
