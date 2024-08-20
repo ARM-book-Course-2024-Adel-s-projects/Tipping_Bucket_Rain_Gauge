@@ -4,6 +4,7 @@
 static void ping(void);
 static void waitPingResponse(gprs_t*);
 static void checkSignalQuality(gprs_t*);
+static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
 
@@ -43,7 +44,10 @@ void waitPingResponse(gprs_t *gprsModule) {
     gprsModule->state = INITIAL_STATUS;
 
     if (gprsSerial.readable()) {
-        char response[] = gprsSerial.read();
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
         if(strstr(response, expectedResponse) != NULL) {
             gprsModule->state = REQUESTING_SIGNAL_QUALITY;
 
@@ -56,4 +60,22 @@ void waitPingResponse(gprs_t *gprsModule) {
 
 void checkSignalQuality(gprs_t *gprsModule) {
     
+}
+
+static void readString(char* str) {
+    int strIndex = 0;
+    char byte;
+    while(true) {
+        gprsSerial->read(&byte, 1);
+
+        if(byte == '\n') {
+            str[strIndex] = '\n';
+            str[strIndex + 1] = '\0';
+            break;
+        }
+
+        if(strIndex < MAX_RESPONSE_LENGTH) {
+            str[strIndex++] = byte;
+        }
+    }
 }
