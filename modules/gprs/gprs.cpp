@@ -11,6 +11,10 @@ static void setFullOperationMode(void);
 static void checkFullOperationModeValue(void);
 static void getSimAvailability(void);
 static void checkSimAvailability(void);
+static void registerToApn(void);
+static void checkApnRegistration(void);
+static void setInternetProtocolContext(void);
+static void checkInternetProtocolContext(void);
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
@@ -62,6 +66,23 @@ void updateGprs() {
         case ANALYZING_SIM_AVAILABILITY:
             checkSimAvailability();
             break;
+        
+        case REGISTERING_TO_APN:
+            registerToApn();
+            break;
+        
+        case ANALYZING_APN_REGISTRATION:
+            checkApnRegistration();
+            break;
+        
+        case SETTING_INTERNET_PROTOCOL_CONTEXT:
+            setInternetProtocolContext();
+            break;
+        
+        case ANALYZING_INTERNET_PROTOCOL_CONTEXT:
+            checkInternetProtocolContext();
+            break;
+            
     }
 }
 
@@ -206,6 +227,60 @@ static void checkSimAvailability(void) {
 
             #ifdef LOG
             logMessage("REGISTERING TO APN");
+            #endif
+        }
+    }
+}
+
+static void registerToApn(void) {
+    gprsModule.state = ANALYZING_APN_REGISTRATION;
+    gprsSerial.write(AT_CSTT, sizeof(AT_CSTT));
+
+    #ifdef LOG
+    logMessage("ANALYZING APN REGISTRATION");
+    #endif
+}
+
+static void checkApnRegistration(void) {
+    char expectedResponse[] = "OK";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = SETTING_INTERNET_PROTOCOL_CONTEXT;
+
+            #ifdef LOG
+            logMessage("SETTING INTERNET PROTOCOL CONTEXT");
+            #endif
+        }
+    }
+}
+
+static void setInternetProtocolContext(void) {
+    gprsModule.state = ANALYZING_INTERNET_PROTOCOL_CONTEXT;
+    gprsSerial.write(CIICR, sizeof(CIICR));
+
+    #ifdef LOG
+    logMessage("ANALYZING INTERNET PROTOCOL CONTEXT");
+    #endif
+}
+
+static void checkInternetProtocolContext(void) {
+    char expectedResponse[] = "OK";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = STABLISHING_REMOTE_SERVER_CONNECTION;
+
+            #ifdef LOG
+            logMessage("STABLISHING REMOTE SERVER CONNECTION");
             #endif
         }
     }

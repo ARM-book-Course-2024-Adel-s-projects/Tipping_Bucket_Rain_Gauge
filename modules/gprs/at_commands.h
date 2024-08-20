@@ -6,5 +6,9 @@
 #define CREG "AT+CREG?\r\n"
 #define CFUN1 "AT+CFUN=1\r\n"
 #define CPIN "AT+CPIN?\r\n"
+#define CSTT "AT+CSTT="
+#define CIICR "AT+CIICR\r\n"
+
+#define AT_END "\r\n"
 
 #endif
