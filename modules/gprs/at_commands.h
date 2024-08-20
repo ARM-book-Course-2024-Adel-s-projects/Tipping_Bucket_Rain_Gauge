@@ -1,7 +1,8 @@
 #ifndef _AT_COMMANDS_
 #define _AT_COMMANDS_
 
-#define AT "AT\n\r"
-#define CSQ "AT+CSQ\n\r"
+#define AT "AT\r\n"
+#define CSQ "AT+CSQ\r\n"
+#define CREG "AT+CREG?\r\n"
 
 #endif
