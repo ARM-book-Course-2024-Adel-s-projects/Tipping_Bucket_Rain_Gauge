@@ -29,7 +29,7 @@ static void readString(char* str, UnbufferedSerial *serial) {
             break;
         }
 
-        if(strIndex < sizeof(str) - 1) {
+        if(strIndex < 99) {
             str[strIndex++] = byte;
         }
     }
