@@ -61,7 +61,8 @@ void sendAtCommand(char* command) {
     sim800l.write(command, strlen(command));
 
     if (strstr(command, "CIPSEND") != NULL) {
-        sim800l.write(0x1A, 1);
+        char ctrlZ = 0x1A;
+        sim800l.write(&ctrlZ, 1);
     }
 
     writeSerial("Sent: ", &uartUsb);
