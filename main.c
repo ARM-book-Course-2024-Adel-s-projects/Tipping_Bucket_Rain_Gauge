@@ -1,4 +1,5 @@
 #include <mbed.h>
+#include <chrono>
 
 static UnbufferedSerial uartUsb(USBTX, USBRX, 115200);
 static UnbufferedSerial sim800l(PE_8, PE_7, 9600);
@@ -9,7 +10,7 @@ static void sendAtCommand(char*);
 static void readString(char*, UnbufferedSerial);
 static void readSim800lResponse(void);
 
-static void readString(char* str, UnbufferedSerial serial) {
+static void readString(char* str, UnbufferedSerial &serial) {
     int strIndex = 0;
     char byte;
     while(true) {
