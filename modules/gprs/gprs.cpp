@@ -57,6 +57,10 @@ void updateGprs() {
         case REQUESTING_SIM_AVAILABILITY:
             getSimAvailability();
             break;
+        
+        case ANALYZING_SIM_AVAILABILITY:
+            checkSimAvailability();
+            break;
     }
 }
 
