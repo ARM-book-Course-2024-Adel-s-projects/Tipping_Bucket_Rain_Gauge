@@ -7,7 +7,7 @@ char at_command[100];
 
 static void sendAtCommand(char*);
 static void readString(char*, UnbufferedSerial);
-static void readSim800lResponse(void):
+static void readSim800lResponse(void);
 
 static void readString(char* str, UnbufferedSerial serial) {
     int strIndex = 0;
