@@ -7,14 +7,14 @@ char sim800l_response[100];
 char at_command[100];
 
 static void sendAtCommand(char*);
-static void readString(char*, UnbufferedSerial);
+static void readString(char*, UnbufferedSerial*);
 static void readSim800lResponse(void);
 
-static void readString(char* str, UnbufferedSerial &serial) {
+static void readString(char* str, UnbufferedSerial *serial) {
     int strIndex = 0;
     char byte;
     while(true) {
-        serial.read(&byte, 1);
+        serial->read(&byte, 1);
 
         if(byte == '\n') {
             str[strIndex] = '\n';
