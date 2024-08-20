@@ -16,7 +16,10 @@ gprs_t gprsModule;
 void updateGprs() {
     switch(gprsModule.state) {
 
-        case INITIAL_STATUS:
+        case DISCONNECTED:
+            break;
+        
+        case PING:
             ping();
             break;
 
@@ -42,8 +45,12 @@ void updateGprs() {
     }
 }
 
-void initGprs() {
-    gprsModule.state = INITIAL_STATUS;
+void initGprs(void) {
+    gprsModule.state = DISCONNECTED;
+}
+
+void startConnection(void) {
+    gprsModule.state = PING;
 }
 
 static void ping(void) {
@@ -59,7 +66,7 @@ static void ping(void) {
 static void waitPingResponse(void) {
     char expectedResponse[] = "OK";
 
-    gprsModule.state = INITIAL_STATUS;
+    gprsModule.state = DISCONNECTED;
 
     if (gprsSerial.readable()) {
         
@@ -88,7 +95,7 @@ static void getSignalQuality(void) {
 static void checkSignalQuality(void) {
     char expectedResponse[] = "+CSQ";
 
-    gprsModule.state = INITIAL_STATUS;
+    gprsModule.state = DISCONNECTED;
 
     if (gprsSerial.readable()) {
         
@@ -115,9 +122,9 @@ static void getNetworkRegistrationStatus(void) {
 }
 
 static void checkNetworkRegistrationStatus(void) {
-    char expectedResponse[] = "+CREG?";
+    char expectedResponse[] = "+CREG";
 
-    gprsModule.state = INITIAL_STATUS;
+    gprsModule.state = DISCONNECTED;
 
     if (gprsSerial.readable()) {
         

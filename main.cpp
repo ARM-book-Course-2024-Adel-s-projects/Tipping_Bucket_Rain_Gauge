@@ -4,13 +4,15 @@
 #include "gprs.h"
 #include <mbed.h>
 
-#define SECOND 1000
+#define SECOND 2000
 
 int tick_counter = 0;
 
 int main() {
     initRainGauge();
     initGprs();
+    thread_sleep_for(2000);
+    startConnection();
     while (true) {
         updateRainMeasure();
         uartTask();
