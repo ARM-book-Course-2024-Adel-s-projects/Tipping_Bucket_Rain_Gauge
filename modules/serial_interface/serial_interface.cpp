@@ -155,6 +155,6 @@ static void logCurrentRegistration() {
     logRegistration(currentRegistration);
 }
 
-void logMessage(char* message) {
+void logMessage(const char* message) {
     writeSerial(message);
 }

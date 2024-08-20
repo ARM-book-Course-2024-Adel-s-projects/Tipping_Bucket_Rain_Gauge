@@ -66,7 +66,7 @@ static void readString(char* str) {
     int strIndex = 0;
     char byte;
     while(true) {
-        gprsSerial->read(&byte, 1);
+        gprsSerial.read(&byte, 1);
 
         if(byte == '\n') {
             str[strIndex] = '\n';

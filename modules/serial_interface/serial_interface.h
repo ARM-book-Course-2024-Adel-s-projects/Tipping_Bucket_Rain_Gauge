@@ -11,7 +11,7 @@
 //=====[Function Declarations]================================================
 
 void uartTask(void);
-void logMessage(char*);
+void logMessage(const char*);
 
 //=====[Include Guards - End]=================================================
 
