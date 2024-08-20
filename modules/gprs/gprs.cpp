@@ -7,6 +7,9 @@ static void getSignalQuality(void);
 static void checkSignalQuality(void);
 static void getNetworkRegistrationStatus(void);
 static void checkNetworkRegistrationStatus(void);
+static void setFullOperationMode(void);
+static void checkFullOperationModeValue(void);
+static void getSimAvailability(void);
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
@@ -44,6 +47,15 @@ void updateGprs() {
             break;
         
         case SETTING_FULL_OPERATION_MODE:
+            setFullOperationMode();
+            break;
+        
+        case ANALYZING_FULL_OPERATION_MODE_VALUE:
+            checkFullOperationModeValue();
+            break;
+
+        case REQUESTING_SIM_AVAILABILITY:
+            getSimAvailability();
             break;
     }
 }
@@ -69,8 +81,6 @@ static void ping(void) {
 static void waitPingResponse(void) {
     char expectedResponse[] = "OK";
 
-    gprsModule.state = DISCONNECTED;
-
     if (gprsSerial.readable()) {
         
         char response[MAX_RESPONSE_LENGTH];
@@ -87,7 +97,9 @@ static void waitPingResponse(void) {
 }
 
 static void getSignalQuality(void) {
+
     gprsModule.state = ANALYZING_SIGNAL_QUALITY;
+
     gprsSerial.write(CSQ, sizeof(CSQ));
 
     #ifdef LOG
@@ -97,8 +109,6 @@ static void getSignalQuality(void) {
 
 static void checkSignalQuality(void) {
     char expectedResponse[] = "+CSQ";
-
-    gprsModule.state = DISCONNECTED;
 
     if (gprsSerial.readable()) {
         
@@ -127,8 +137,6 @@ static void getNetworkRegistrationStatus(void) {
 static void checkNetworkRegistrationStatus(void) {
     char expectedResponse[] = "+CREG";
 
-    gprsModule.state = ANALYZING_NETWORK_REGISTRATION_STATUS;
-
     if (gprsSerial.readable()) {
         
         char response[MAX_RESPONSE_LENGTH];
@@ -139,6 +147,60 @@ static void checkNetworkRegistrationStatus(void) {
 
             #ifdef LOG
             logMessage("SETTING FULL OPERATION MODE");
+            #endif
+        }
+    }
+}
+
+static void setFullOperationMode(void) {
+    gprsModule.state = ANALYZING_FULL_OPERATION_MODE_VALUE;
+    gprsSerial.write(CFUN1, sizeof(CFUN1));
+
+    #ifdef LOG
+    logMessage("ANALYZING FULL OPERATION MODE VALUE");
+    #endif
+}
+
+static void checkFullOperationModeValue(void) {
+    char expectedResponse[] = "CFUN=1";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = REQUESTING_SIM_AVAILABILITY;
+
+            #ifdef LOG
+            logMessage("REQUESTING SIM AVAILABILITY");
+            #endif
+        }
+    }
+}
+
+static void getSimAvailability(void) {
+    gprsModule.state = ANALYZING_SIM_AVAILABILITY;
+    gprsSerial.write(CPIN, sizeof(CPIN));
+
+    #ifdef LOG
+    logMessage("ANALYZING SIM AVAILABILITY");
+    #endif
+}
+
+static void checkSimAvailability(void) {
+    char expectedResponse[] = "READY";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = REGISTERING_TO_APN;
+
+            #ifdef LOG
+            logMessage("REGISTERING TO APN");
             #endif
         }
     }
