@@ -9,6 +9,13 @@ char at_command[100];
 static void sendAtCommand(char*);
 static void readString(char*, UnbufferedSerial*);
 static void readSim800lResponse(void);
+static void writeSerial(const char*, UnbufferedSerial*);
+
+static void writeSerial(const char* message, UnbufferedSerial* serial) {
+    int stringLength;
+    stringLength = strlen(message);
+    serial->write(message, stringLength);
+}
 
 static void readString(char* str, UnbufferedSerial *serial) {
     int strIndex = 0;
@@ -31,9 +38,9 @@ static void readString(char* str, UnbufferedSerial *serial) {
 void readSim800lResponse() {
     if(sim800l.readable()) {
         readString(sim800l_response, &sim800l);
-        uartUsb.write(sim800l_response);
+        uartUsb.write(sim800l_response, strlen(sim800l_response));
     } else {
-        uartUsb.write("No response received yet...\n");
+        writeSerial("No response received yet...\n", &uartUsb);
     }
 }
 
@@ -51,12 +58,12 @@ int main() {
 }
 
 void sendAtCommand(char* command) {
-    sim800l.write(command);
+    sim800l.write(command, strlen(command));
 
     if (strstr(command, "CIPSEND") != NULL) {
-        sim800l.write(0x1A);
+        sim800l.write(0x1A, 1);
     }
 
-    uartUsb.write("Sent: ");
-    uartUsb.write(command);
+    writeSerial("Sent: ", &uartUsb);
+    uartUsb.write(command, strlen(command));
 }
