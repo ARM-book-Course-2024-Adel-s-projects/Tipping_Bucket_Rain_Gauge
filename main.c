@@ -46,8 +46,6 @@ int main() {
             
             readSim800lResponse();    
         }
-
-
     }
 }
 
