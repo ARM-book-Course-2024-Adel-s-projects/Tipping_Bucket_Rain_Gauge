@@ -52,6 +52,10 @@ int main() {
 void sendAtCommand(char* command) {
     sim800l.write(command);
 
+    if (strstr(command, "CIPSEND") != NULL) {
+        sim800l.write(0x1A);
+    }
+
     uartUsb.write("Sent: ");
     uartUsb.write(command);
 }
