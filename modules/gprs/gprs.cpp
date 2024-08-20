@@ -127,7 +127,7 @@ static void getNetworkRegistrationStatus(void) {
 static void checkNetworkRegistrationStatus(void) {
     char expectedResponse[] = "+CREG";
 
-    gprsModule.state = DISCONNECTED;
+    gprsModule.state = ANALYZING_NETWORK_REGISTRATION_STATUS;
 
     if (gprsSerial.readable()) {
         
