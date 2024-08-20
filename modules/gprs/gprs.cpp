@@ -42,6 +42,9 @@ void updateGprs() {
         case ANALYZING_NETWORK_REGISTRATION_STATUS:
             checkNetworkRegistrationStatus();
             break;
+        
+        case SETTING_FULL_OPERATION_MODE:
+            break;
     }
 }
 
@@ -139,10 +142,6 @@ static void checkNetworkRegistrationStatus(void) {
             #endif
         }
     }
-
-    #ifdef LOG
-    logMessage("SETTING FULL OPERATION MODE");
-    #endif
 }
 
 bool getConnectionState(void) {
