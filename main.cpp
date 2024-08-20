@@ -24,7 +24,7 @@ static void readString(char* str, UnbufferedSerial *serial) {
         serial->read(&byte, 1);
 
         if(byte == '\n') {
-            str[++strIndex] = '\n';
+            str[strIndex] = '\n';
             str[strIndex + 1] = '\0';
             break;
         }
@@ -38,7 +38,7 @@ static void readString(char* str, UnbufferedSerial *serial) {
 void readSim800lResponse() {
     if(sim800l.readable()) {
         readString(sim800l_response, &sim800l);
-        uartUsb.write(sim800l_response, strlen(sim800l_response));
+        uartUsb.write(sim800l_response, strlen(sim800l_response) + 1);
     } else {
         writeSerial("No response received yet...\n", &uartUsb);
     }
@@ -58,7 +58,7 @@ int main() {
 }
 
 void sendAtCommand(char* command) {
-    sim800l.write(command, strlen(command));
+    sim800l.write(command, strlen(command) + 1);
 
     if (strstr(command, "CIPSEND") != NULL) {
         char ctrlZ = 0x1A;
@@ -66,5 +66,5 @@ void sendAtCommand(char* command) {
     }
 
     writeSerial("Sent: ", &uartUsb);
-    uartUsb.write(command, strlen(command));
+    uartUsb.write(command, strlen(command) + 1);
 }
