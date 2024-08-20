@@ -15,6 +15,8 @@ static void registerToApn(void);
 static void checkApnRegistration(void);
 static void setInternetProtocolContext(void);
 static void checkInternetProtocolContext(void);
+static void connectToRemoteServer(void);
+static void checkRemoteServerConnection(void);
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
@@ -81,6 +83,14 @@ void updateGprs() {
         
         case ANALYZING_INTERNET_PROTOCOL_CONTEXT:
             checkInternetProtocolContext();
+            break;
+        
+        case STABLISHING_REMOTE_SERVER_CONNECTION:
+            connectToRemoteServer();
+            break;
+        
+        case ANALYZING_REMOTE_SERVER_CONNECTION:
+            checkRemoteServerConnection();
             break;
             
     }
@@ -281,6 +291,33 @@ static void checkInternetProtocolContext(void) {
 
             #ifdef LOG
             logMessage("STABLISHING REMOTE SERVER CONNECTION");
+            #endif
+        }
+    }
+}
+
+void connectToRemoteServer(void) {
+    gprsModule.state = ANALYZING_REMOTE_SERVER_CONNECTION;
+    gprsSerial.write(AT_CIPSTART, sizeof(AT_CIPSTART));
+
+    #ifdef LOG
+    logMessage("ANALYZING_REMOTE_SERVER_CONNECTION");
+    #endif
+}
+
+void checkRemoteServerConnection(void) {
+    char expectedResponse[] = "CONNECT OK";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = READY_TO_SEND_DATA;
+
+            #ifdef LOG
+            logMessage("READY TO SEND DATA");
             #endif
         }
     }
