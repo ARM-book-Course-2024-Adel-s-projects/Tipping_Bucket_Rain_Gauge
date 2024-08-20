@@ -30,7 +30,7 @@ void initGprs(gprs_t *gprsModule) {
 }
 
 void ping() {
-    gprsSerial.write(AT);
+    gprsSerial.write(AT, sizeof(AT));
 
     #ifdef LOG
     logMessage("SENDING PING");
