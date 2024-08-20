@@ -24,7 +24,7 @@ static void readString(char* str, UnbufferedSerial *serial) {
         serial->read(&byte, 1);
 
         if(byte == '\n') {
-            str[strIndex] = '\n';
+            str[++strIndex] = '\n';
             str[strIndex + 1] = '\0';
             break;
         }
