@@ -29,7 +29,7 @@ void updateGprs() {
 }
 
 void initGprs() {
-    gprsModule->state = INITIAL_STATUS;
+    gprsModule.state = INITIAL_STATUS;
 }
 
 void ping() {
