@@ -1,10 +1,11 @@
 #include "gprs.h"
+#include "serial_interface.h"
 
 static void ping(void);
 static void waitPingResponse(gprs_t*);
 static void checkSignalQuality(gprs_t*);
 
-static UnbufferedSerial gprsSerial(USBTX, USBRX, 9600);
+static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
 
 void updateGprs(gprs_t *gprsModule) {
     switch(gprsModule->state) {
@@ -30,6 +31,10 @@ void initGprs(gprs_t *gprsModule) {
 
 void ping() {
     gprsSerial.write(AT);
+
+    #ifdef LOG
+    logMessage("SENDING PING");
+    #endif
 }
 
 void waitPingResponse(gprs_t *gprsModule) {
@@ -41,10 +46,14 @@ void waitPingResponse(gprs_t *gprsModule) {
         char response[] = gprsSerial.read();
         if(strstr(response, expectedResponse) != NULL) {
             gprsModule->state = REQUESTING_SIGNAL_QUALITY;
+
+            #ifdef LOG
+            logMessage("REQUESTING SIGNAL QUALITY");
+            #endif
         }
     }
 }
 
 void checkSignalQuality(gprs_t *gprsModule) {
-
+    
 }

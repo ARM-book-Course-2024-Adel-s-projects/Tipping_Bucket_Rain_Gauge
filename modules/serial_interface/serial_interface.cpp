@@ -154,3 +154,7 @@ static void logCurrentRegistration() {
     RainGauge_t currentRegistration = getCurrentDayRain();
     logRegistration(currentRegistration);
 }
+
+void logMessage(char* message) {
+    writeSerial(message);
+}

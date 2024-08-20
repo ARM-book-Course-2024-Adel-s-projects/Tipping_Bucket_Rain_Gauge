@@ -1,6 +1,10 @@
 #ifndef _GPRS_
 #define _GPRS_
 
+#include "at_commands.h"
+
+#define LOG
+
 #define ACCESS_POINT_NAME "\"wap.gprs.unifon.com.ar\"" // Movistar
 #define APN_USER "\"wep\""
 #define APN_PASSWORD "\"wep\""
@@ -16,9 +20,6 @@
 #define SERVER_INFO CONNECTION_TYPE COMMA REMOTE_SERVER_PUBLIC_IP COMMA SOCKET_PORT
 
 #define MIN_SIGNAL_QUALITY_VALUE 5
-
-#define AT "AT\n\r"
-#define CSQ "AT+CSQ\n\r"
 
 typedef enum {
     INITIAL_STATUS, // AT

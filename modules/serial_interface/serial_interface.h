@@ -10,7 +10,8 @@
 
 //=====[Function Declarations]================================================
 
-void uartTask();
+void uartTask(void);
+void logMessage(char*);
 
 //=====[Include Guards - End]=================================================
 
