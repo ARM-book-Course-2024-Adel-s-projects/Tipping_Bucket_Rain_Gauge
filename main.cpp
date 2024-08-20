@@ -17,6 +17,10 @@ int main() {
         updateRainMeasure();
         uartTask();
         if (tick_counter++ >= SECOND) {
+            if (!getConnectionState()) {
+                startConnection();
+                thread_sleep_for(2000);
+            }
             updateGprs();
             tick_counter = 0;
         }

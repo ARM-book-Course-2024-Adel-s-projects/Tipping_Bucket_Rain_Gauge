@@ -145,6 +145,10 @@ static void checkNetworkRegistrationStatus(void) {
     #endif
 }
 
+bool getConnectionState(void) {
+    return (gprsModule.state == DISCONNECTED) ? false : true;
+}
+
 static void readString(char* str) {
     int strIndex = 0;
     char byte;

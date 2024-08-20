@@ -56,5 +56,6 @@ typedef struct gprs {
 void updateGprs(void);
 void initGprs(void);
 void startConnection(void);
+bool getConnectionState(void);
 
 #endif
