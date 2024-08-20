@@ -30,7 +30,7 @@ static void readString(char* str, UnbufferedSerial *serial) {
 
 void readSim800lResponse() {
     if(sim800l.readable()) {
-        readString(sim800l_response, sim800l);
+        readString(sim800l_response, &sim800l);
         uartUsb.write(sim800l_response);
     } else {
         uartUsb.write("No response received yet...\n");
@@ -40,7 +40,7 @@ void readSim800lResponse() {
 int main() {
     while(true) {
         if(uartUsb.readable()) {
-            readString(at_command, uartUsb);
+            readString(at_command, &uartUsb);
             sendAtCommand(at_command);
             
             thread_sleep_for(1000);
