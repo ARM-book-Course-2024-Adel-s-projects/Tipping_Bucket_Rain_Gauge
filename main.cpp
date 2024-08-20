@@ -53,6 +53,8 @@ int main() {
             thread_sleep_for(1000);
             
             readSim800lResponse();    
+        } else if (sim800l.readable()) {
+            readSim800lResponse();
         }
     }
 }
