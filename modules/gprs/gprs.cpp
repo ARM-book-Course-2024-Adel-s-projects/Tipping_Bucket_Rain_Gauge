@@ -10,6 +10,7 @@ static void checkNetworkRegistrationStatus(void);
 static void setFullOperationMode(void);
 static void checkFullOperationModeValue(void);
 static void getSimAvailability(void);
+static void checkSimAvailability(void);
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
