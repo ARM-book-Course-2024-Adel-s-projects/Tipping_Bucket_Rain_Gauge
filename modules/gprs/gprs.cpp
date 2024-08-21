@@ -21,9 +21,15 @@ static void connectToRemoteServer(void);
 static void checkRemoteServerConnection(void);
 static void restartModule(void);
 static void checkingModuleRestart(void);
+static void openChannel(void);
+static void checkingIfChannelWasOpened(void);
+static void send(void);
+static void checkSentMessage(void);
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
+static char messageToBeSend[100];
+static bool incomingMessage = false;
 
 gprs_t gprsModule;
 
@@ -111,6 +117,22 @@ void updateGprs() {
         
         case ANALYZING_REMOTE_SERVER_CONNECTION:
             checkRemoteServerConnection();
+            break;
+        
+        case READY_TO_SEND_DATA:
+            openChannel();
+            break;
+        
+        case CHECK_CHANNEL:
+            checkingIfChannelWasOpened();
+            break;
+        
+        case SENDING_DATA:
+            send();
+            break;
+        
+        case CHECKING_IF_DATA_WAS_CORRECTLY_SENT:
+            checkSentMessage();
             break;
             
     }
@@ -400,6 +422,69 @@ void checkRemoteServerConnection(void) {
 
 bool getConnectionState(void) {
     return (gprsModule.state == DISCONNECTED) ? false : true;
+}
+
+bool sendData(const char* message) {
+    incomingMessage = true;
+    strcpy(messageToBeSend, message);
+}
+
+static void openChannel(void) {
+
+    if (incomingMessage) {
+        gprsModule.state = CHECK_CHANNEL;
+        gprsSerial.write(CIPSEND, sizeof(CIPSEND));
+
+        #ifdef LOG
+        logMessage("OPENING CHANNEL");
+        #endif
+    }
+}
+
+static void checkingIfChannelWasOpened(void) {
+    char expectedResponse[] = ">";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = SENDING_DATA;
+
+            #ifdef LOG
+            logMessage("CHANNEL OPENED");
+            #endif
+        }
+    }
+}
+
+static void send(void) {
+    gprsModule.state = CHECKING_IF_DATA_WAS_CORRECTLY_SENT;
+    gprsSerial.write(messageToBeSend, sizeof(messageToBeSend));
+
+    #ifdef LOG
+    logMessage("CHECKING IF DATA WAS CORRECTLY SENT");
+    #endif
+}
+
+static void checkSentMessage(void) {
+    char expectedResponse[] = "SEND OK";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = READY_TO_SEND_DATA;
+            incomingMessage = false;
+
+            #ifdef LOG
+            logMessage("MESSAGE SENT");
+            #endif
+        }
+    }
 }
 
 static void readString(char* str) {

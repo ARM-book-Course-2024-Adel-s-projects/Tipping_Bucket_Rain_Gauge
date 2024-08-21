@@ -11,6 +11,7 @@
 #define CIICR "AT+CIICR\r\n"
 #define CIFSR "AT+CIFSR\r\n"
 #define CIPSTART "AT+CIPSTART="
+#define CIPSEND "AT+CIPSEND\r\n"
 
 #define AT_END "\r\n"
 

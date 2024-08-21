@@ -48,8 +48,9 @@ typedef enum {
     ANALYZE_ASSIGNED_IP_ADDRESS,
     STABLISHING_REMOTE_SERVER_CONNECTION, // AT+CIPSTART="TCP","<server_public_ip>",">server_port>"
     ANALYZING_REMOTE_SERVER_CONNECTION,
-    READY_TO_SEND_DATA,
-    SENDING_DATA, // AT+CIPSEND
+    READY_TO_SEND_DATA, // AT+CIPSEND
+    CHECK_CHANNEL,
+    SENDING_DATA,
     CHECKING_IF_DATA_WAS_CORRECTLY_SENT,
     CLOSING_CONNECTION, // AT+CIPCLOSE
     MODULE_RESET, // AT+A&F
@@ -64,5 +65,6 @@ void updateGprs(void);
 void initGprs(void);
 void startConnection(void);
 bool getConnectionState(void);
+bool sendData(const char*);
 
 #endif
