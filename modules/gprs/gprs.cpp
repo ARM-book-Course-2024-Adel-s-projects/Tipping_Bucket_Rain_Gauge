@@ -424,7 +424,7 @@ bool getConnectionState(void) {
     return (gprsModule.state == DISCONNECTED) ? false : true;
 }
 
-bool sendData(const char* message) {
+void sendData(const char* message) {
     incomingMessage = true;
     strcpy(messageToBeSend, message);
 }
@@ -479,6 +479,7 @@ static void checkSentMessage(void) {
         if(strstr(response, expectedResponse) != NULL) {
             gprsModule.state = READY_TO_SEND_DATA;
             incomingMessage = false;
+            memset(messageToBeSend, 0, sizeof(messageToBeSend));
 
             #ifdef LOG
             logMessage("MESSAGE SENT");
