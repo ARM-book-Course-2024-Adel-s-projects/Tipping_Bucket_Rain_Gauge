@@ -15,6 +15,8 @@ static void registerToApn(void);
 static void checkApnRegistration(void);
 static void setInternetProtocolContext(void);
 static void checkInternetProtocolContext(void);
+static void getAssignedIpAddress(void);
+static void checkAssignedIpAddresS(void);
 static void connectToRemoteServer(void);
 static void checkRemoteServerConnection(void);
 static void readString(char*);
@@ -83,6 +85,14 @@ void updateGprs() {
         
         case ANALYZING_INTERNET_PROTOCOL_CONTEXT:
             checkInternetProtocolContext();
+            break;
+        
+        case GET_ASSIGNED_IP_ADDRESS:
+            getAssignedIpAddress();
+            break;
+        
+        case ANALYZE_ASSIGNED_IP_ADDRESS:
+            checkAssignedIpAddresS();
             break;
         
         case STABLISHING_REMOTE_SERVER_CONNECTION:
@@ -280,6 +290,33 @@ static void setInternetProtocolContext(void) {
 
 static void checkInternetProtocolContext(void) {
     char expectedResponse[] = "OK";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = GET_ASSIGNED_IP_ADDRESS;
+
+            #ifdef LOG
+            logMessage("GET ASSIGNED IP ADDRESS");
+            #endif
+        }
+    }
+}
+
+void getAssignedIpAddress(void) {
+    gprsModule.state = ANALYZE_ASSIGNED_IP_ADDRESS;
+    gprsSerial.write(CIFSR, sizeof(CIFSR));
+
+    #ifdef LOG
+    logMessage("ANALYZING ASSIGNED IP ADDRESS");
+    #endif
+}
+
+void checkAssignedIpAddresS(void) {
+    char expectedResponse[] = "100.";
 
     if (gprsSerial.readable()) {
         

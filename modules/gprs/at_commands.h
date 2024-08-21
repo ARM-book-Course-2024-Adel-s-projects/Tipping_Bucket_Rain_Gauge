@@ -8,6 +8,7 @@
 #define CPIN "AT+CPIN?\r\n"
 #define CSTT "AT+CSTT="
 #define CIICR "AT+CIICR\r\n"
+#define CIFSR "AT+CIFSR\r\n"
 #define CIPSTART "AT+CIPSTART="
 
 #define AT_END "\r\n"
