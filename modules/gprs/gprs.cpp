@@ -147,8 +147,11 @@ void startConnection(void) {
 }
 
 static void restartModule(void) {
-    gprsModule.state = WAITING_FOR_MODULE_RESTART;
+    char ctrlZ = 0x1A;
 
+    gprsModule.state = WAITING_FOR_MODULE_RESTART;
+    
+    gprsSerial.write(&ctrlZ, 1);
     gprsSerial.write(CFUN1_1, sizeof(CFUN1_1));
 
     #ifdef LOG
