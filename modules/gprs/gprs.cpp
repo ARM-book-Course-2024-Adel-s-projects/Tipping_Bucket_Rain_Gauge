@@ -143,7 +143,7 @@ void initGprs(void) {
 }
 
 void startConnection(void) {
-    gprsModule.state = PING;
+    gprsModule.state = RESTARTING_MODULE;
 }
 
 static void restartModule(void) {
@@ -442,21 +442,13 @@ static void openChannel(void) {
 }
 
 static void checkingIfChannelWasOpened(void) {
-    char expectedResponse[] = ">";
+    
+    gprsModule.state = SENDING_DATA;
 
-    if (gprsSerial.readable()) {
-        
-        char response[MAX_RESPONSE_LENGTH];
-        readString(response);
-        
-        if(strstr(response, expectedResponse) != NULL) {
-            gprsModule.state = SENDING_DATA;
+    #ifdef LOG
+    logMessage("CHANNEL OPENED");
+    #endif
 
-            #ifdef LOG
-            logMessage("CHANNEL OPENED");
-            #endif
-        }
-    }
 }
 
 static void send(void) {
