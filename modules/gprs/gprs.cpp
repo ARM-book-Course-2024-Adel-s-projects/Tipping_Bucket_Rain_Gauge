@@ -19,6 +19,8 @@ static void getAssignedIpAddress(void);
 static void checkAssignedIpAddresS(void);
 static void connectToRemoteServer(void);
 static void checkRemoteServerConnection(void);
+static void restartModule(void);
+static void checkingModuleRestart(void);
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
@@ -29,6 +31,14 @@ void updateGprs() {
     switch(gprsModule.state) {
 
         case DISCONNECTED:
+            break;
+        
+        case RESTARTING_MODULE:
+            restartModule();
+            break;
+        
+        case WAITING_FOR_MODULE_RESTART:
+            checkingModuleRestart();
             break;
         
         case PING:
@@ -112,6 +122,34 @@ void initGprs(void) {
 
 void startConnection(void) {
     gprsModule.state = PING;
+}
+
+static void restartModule(void) {
+    gprsModule.state = WAITING_FOR_MODULE_RESTART;
+
+    gprsSerial.write(CFUN1_1, sizeof(CFUN1_1));
+
+    #ifdef LOG
+    logMessage("RESTARTING MODULE");
+    #endif
+}
+
+static void checkingModuleRestart(void) {
+    char expectedResponse[] = "OK";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = PING;
+
+            #ifdef LOG
+            logMessage("MODULE RESTARTED");
+            #endif
+        }
+    }
 }
 
 static void ping(void) {
