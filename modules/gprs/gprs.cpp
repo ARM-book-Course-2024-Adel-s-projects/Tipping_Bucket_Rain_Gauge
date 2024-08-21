@@ -460,8 +460,12 @@ static void checkingIfChannelWasOpened(void) {
 }
 
 static void send(void) {
+    char ctrlZ = 0x1A;
+
     gprsModule.state = CHECKING_IF_DATA_WAS_CORRECTLY_SENT;
     gprsSerial.write(messageToBeSend, sizeof(messageToBeSend));
+    gprsSerial.write(&ctrlZ, 1);
+    gprsSerial.write("\r\n", 2);
 
     #ifdef LOG
     logMessage("CHECKING IF DATA WAS CORRECTLY SENT");
