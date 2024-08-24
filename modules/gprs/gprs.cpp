@@ -25,11 +25,14 @@ static void openChannel(void);
 static void checkingIfChannelWasOpened(void);
 static void send(void);
 static void checkSentMessage(void);
+static void disconnect(void);
+static void checkIfConnectionWasClosed(void);
 static void readString(char*);
 
 static BufferedSerial gprsSerial(PE_8, PE_7, 9600);
 static char messageToBeSend[100];
 static bool incomingMessage = false;
+static bool closeTcpConnection = false;
 
 gprs_t gprsModule;
 
@@ -134,7 +137,14 @@ void updateGprs() {
         case CHECKING_IF_DATA_WAS_CORRECTLY_SENT:
             checkSentMessage();
             break;
-            
+        
+        case CLOSING_CONNECTION:
+            disconnect();
+            break;
+        
+        case CHECKING_IF_CONNECTION_WAS_CLOSED:
+            checkIfConnectionWasClosed();
+            break;
     }
 }
 
@@ -144,6 +154,10 @@ void initGprs(void) {
 
 void startConnection(void) {
     gprsModule.state = RESTARTING_MODULE;
+}
+
+void closeConnection(void) {
+    closeTcpConnection = true;
 }
 
 static void restartModule(void) {
@@ -429,6 +443,7 @@ bool getConnectionState(void) {
 
 void sendData(const char* message) {
     incomingMessage = true;
+    closeTcpConnection = false;
     strcpy(messageToBeSend, message);
 }
 
@@ -441,6 +456,14 @@ static void openChannel(void) {
         #ifdef LOG
         logMessage("OPENING CHANNEL");
         #endif
+
+    } else if(closeTcpConnection) {
+        gprsModule.state = CLOSING_CONNECTION;
+
+        #ifdef LOG
+        logMessage("CLOSSING CONNECTION");
+        #endif
+
     }
 }
 
@@ -482,6 +505,35 @@ static void checkSentMessage(void) {
 
             #ifdef LOG
             logMessage("MESSAGE SENT");
+            #endif
+        }
+    }
+}
+
+static void disconnect(void) {
+    gprsModule.state = CHECKING_IF_CONNECTION_WAS_CLOSED;
+    gprsSerial.write(CIPSHUT, sizeof(CIPSHUT));
+
+    #ifdef LOG
+    logMessage("CLOSSING CONNECTION");
+    #endif
+}
+
+static void checkIfConnectionWasClosed(void) {
+    char expectedResponse[] = "OK";
+
+    if (gprsSerial.readable()) {
+        
+        char response[MAX_RESPONSE_LENGTH];
+        readString(response);
+        
+        if(strstr(response, expectedResponse) != NULL) {
+            gprsModule.state = DISCONNECTED;
+            incomingMessage = false;
+            memset(messageToBeSend, 0, sizeof(messageToBeSend));
+
+            #ifdef LOG
+            logMessage("CONNECTION WAS CORRECTLY CLOSED");
             #endif
         }
     }

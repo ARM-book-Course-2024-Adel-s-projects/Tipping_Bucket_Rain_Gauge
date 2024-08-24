@@ -52,7 +52,8 @@ typedef enum {
     CHECK_CHANNEL,
     SENDING_DATA,
     CHECKING_IF_DATA_WAS_CORRECTLY_SENT,
-    CLOSING_CONNECTION, // AT+CIPCLOSE
+    CLOSING_CONNECTION, // AT+CIPSHUT
+    CHECKING_IF_CONNECTION_WAS_CLOSED,
     MODULE_RESET, // AT+A&F
     ANALYZING_MODULE_RESET,
 } gprs_state_t;
@@ -66,5 +67,6 @@ void initGprs(void);
 void startConnection(void);
 bool getConnectionState(void);
 void sendData(const char*);
+void closeConnection(void);
 
 #endif
