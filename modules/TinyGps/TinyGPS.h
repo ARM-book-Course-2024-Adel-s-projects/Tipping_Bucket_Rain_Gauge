@@ -108,15 +108,6 @@ private:
   unsigned long _last_time_fix, _new_time_fix;
   unsigned long _last_position_fix, _new_position_fix;
 
-  // parsing state variables
-  byte _parity;
-  bool _is_checksum_term;
-  char _term[15];
-  byte _sentence_type;
-  byte _term_number;
-  byte _term_offset;
-  bool _gps_data_good;
-
 #ifndef _GPS_NO_STATS
   // statistics
   unsigned long _encoded_characters;
