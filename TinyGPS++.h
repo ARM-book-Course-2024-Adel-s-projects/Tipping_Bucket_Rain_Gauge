@@ -41,6 +41,7 @@ unsigned long millis(void);
 #define TWO_PI 6.283185307179586
 #define degrees(radians) ((radians) * (180.0 / PI))
 #define byte unsigned char
+#define sq(value) ((value) * (value))
 
 #define _GPS_VERSION "1.1.0" // software version of this library
 #define _GPS_MPH_PER_KNOT 1.15077945
