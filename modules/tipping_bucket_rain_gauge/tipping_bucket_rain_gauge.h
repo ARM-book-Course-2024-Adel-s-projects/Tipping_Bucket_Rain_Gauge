@@ -5,6 +5,7 @@
 #include "rain_gauge.h"
 #include "serial_interface.h"
 #include "gprs.h"
+#include "TinyGPS.h"
 #include <mbed.h>
 
 #define UPDATE_GPRS_TIME_IN_SECONDS 1.0
