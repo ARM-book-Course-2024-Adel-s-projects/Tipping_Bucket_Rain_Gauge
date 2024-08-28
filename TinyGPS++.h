@@ -33,7 +33,14 @@ unsigned long millis(void);
 #include <inttypes.h>
 #include <limits.h>
 #include <cctype>
+#include <cstdint>
 #include "mbed.h"
+
+#define PI 3.141592653589793
+#define radians(degrees) ((degrees) * (PI / 180.0))
+#define TWO_PI 6.283185307179586
+#define degrees(radians) ((radians) * (180.0 / PI))
+#define byte unsigned char
 
 #define _GPS_VERSION "1.1.0" // software version of this library
 #define _GPS_MPH_PER_KNOT 1.15077945
