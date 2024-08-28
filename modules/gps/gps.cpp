@@ -8,7 +8,8 @@ static TinyGPSPlus gps;
 void getGpsPosition(void) {
 
     if(gpsSerial.readable()) {
-        char c = gpsSerial.read();
+        char c;
+        gpsSerial.read(&c, 1);
 
         if(gps.encode(c))
             displayInfo();
