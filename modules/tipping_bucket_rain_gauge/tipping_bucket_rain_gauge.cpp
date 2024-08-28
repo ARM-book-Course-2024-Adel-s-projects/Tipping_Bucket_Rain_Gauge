@@ -2,16 +2,18 @@
 
 static void sendTestMessage(void);
 
-static Ticker gprsUpdater;
 static Ticker dataSender;
+static Ticker gprsUpdater;
+static Ticker gpsUpdater;
 
 void initTippingBucketRainGauge(void) {
     initRainGauge();
     initGprs();
     startConnection();
     
-    gprsUpdater.attach(&updateGprs, UPDATE_GPRS_TIME_IN_SECONDS);
     dataSender.attach(&sendTestMessage, SERVER_UPDATE_TIME_IN_SECONDS);
+    gpsUpdater.attach(&getGpsPosition, UPDATE_GPS_TIME_IN_SECONDS);
+    gprsUpdater.attach(&updateGprs, UPDATE_GPRS_TIME_IN_SECONDS);
 }
 
 void updateTippingBucketRainGauge(void) {
