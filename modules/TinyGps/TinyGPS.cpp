@@ -38,6 +38,12 @@ TinyGPS::TinyGPS()
   ,  _numsats(GPS_INVALID_SATELLITES)
   ,  _last_time_fix(GPS_INVALID_FIX_TIME)
   ,  _last_position_fix(GPS_INVALID_FIX_TIME)
+  ,  _parity(0)
+  ,  _is_checksum_term(false)
+  ,  _sentence_type(_GPS_SENTENCE_OTHER)
+  ,  _term_number(0)
+  ,  _term_offset(0)
+  ,  _gps_data_good(false)
 #ifndef _GPS_NO_STATS
   ,  _encoded_characters(0)
   ,  _good_sentences(0)
@@ -365,6 +371,24 @@ void TinyGPS::f_get_position(float *latitude, float *longitude, unsigned long *f
   get_position(&lat, &lon, fix_age);
   *latitude = lat == GPS_INVALID_ANGLE ? GPS_INVALID_F_ANGLE : (lat / 1000000.0);
   *longitude = lat == GPS_INVALID_ANGLE ? GPS_INVALID_F_ANGLE : (lon / 1000000.0);
+}
+
+void TinyGPS::crack_datetime(int *year, byte *month, byte *day, 
+  byte *hour, byte *minute, byte *second, byte *hundredths, unsigned long *age)
+{
+  unsigned long date, time;
+  get_datetime(&date, &time, age);
+  if (year) 
+  {
+    *year = date % 100;
+    *year += *year > 80 ? 1900 : 2000;
+  }
+  if (month) *month = (date / 100) % 100;
+  if (day) *day = date / 10000;
+  if (hour) *hour = time / 1000000;
+  if (minute) *minute = (time / 10000) % 100;
+  if (second) *second = (time / 100) % 100;
+  if (hundredths) *hundredths = time % 100;
 }
 
 float TinyGPS::f_altitude()    
