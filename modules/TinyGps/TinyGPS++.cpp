@@ -24,24 +24,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "TinyGPS++.h"
 
 #include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
 
 #define _RMCterm "RMC"
 #define _GGAterm "GGA"
 
-#if !defined(ARDUINO) && !defined(__AVR__)
-// Alternate implementation of millis() that relies on std
-unsigned long millis()
-{
-    static auto start_time = std::chrono::high_resolution_clock::now();
+Timer timer;
 
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-
-    return static_cast<unsigned long>(duration.count());
+void initTimer(void) {
+  timer.start();
 }
-#endif
+// Alternate implementation of millis() that relies on std
+unsigned long millis() {
+    return static_cast<unsigned long>(timer.read_ms()); // Devuelve el tiempo transcurrido en milisegundos
+}
 
 TinyGPSPlus::TinyGPSPlus()
   :  parity(0)
