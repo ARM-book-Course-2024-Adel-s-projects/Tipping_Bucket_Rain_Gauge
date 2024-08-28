@@ -26,8 +26,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #ifndef __TinyGPSPlus_h
 #define __TinyGPSPlus_h
 
+#if !defined(ARDUINO) && !defined(__AVR__)
+unsigned long millis(void);
+#endif
+
 #include <inttypes.h>
 #include <limits.h>
+#include "mbed.h"
 
 #define _GPS_VERSION "1.1.0" // software version of this library
 #define _GPS_MPH_PER_KNOT 1.15077945
