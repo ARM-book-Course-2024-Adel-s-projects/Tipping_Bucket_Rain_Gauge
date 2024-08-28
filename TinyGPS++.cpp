@@ -28,7 +28,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define _RMCterm "RMC"
 #define _GGAterm "GGA"
 
-#if !defined(ARDUINO) && !defined(__AVR__)
 Timer timer;
 
 void initTimer(void) {
@@ -38,7 +37,6 @@ void initTimer(void) {
 unsigned long millis() {
     return static_cast<unsigned long>(timer.read_ms()); // Devuelve el tiempo transcurrido en milisegundos
 }
-#endif
 
 TinyGPSPlus::TinyGPSPlus()
   :  parity(0)
