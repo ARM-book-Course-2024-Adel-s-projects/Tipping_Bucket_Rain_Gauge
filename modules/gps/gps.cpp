@@ -19,8 +19,8 @@ void getGpsPosition(void) {
 static void displayInfo(void) {
     if (gps.location.isValid()) {
         char str[50];
-        double lat = gps.location.lat;
-        double lng = gps.location.lng;
+        double lat = gps.location.lat();
+        double lng = gps.location.lng();
 
         sprintf(str, "LAT=%lf, LON=%lf", lat, lng);
         logMessage(str);
