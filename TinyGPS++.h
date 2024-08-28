@@ -32,6 +32,7 @@ unsigned long millis(void);
 
 #include <inttypes.h>
 #include <limits.h>
+#include <cctype>
 #include "mbed.h"
 
 #define _GPS_VERSION "1.1.0" // software version of this library
