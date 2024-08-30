@@ -1,112 +1,40 @@
-### 14/08/24
+### Resumen de avances
 
-Se comienzan experimentos con el módulo SIM800L.
+Al día 29/08/24, se implementaron varias librerías que ayudarán a la implementación final del `Tipping Bucket Rain Gauge`.
 
-Se conecta utilizando una fuente step down (LM2596) conectada a una fuente de PC de escritorio.
+#### Logros
 
-* IN = 12 VCC
-* OUT = 3.9 VCC
+* Aprendizaje de uso del módulo SIM800L: Se aprendió a utilizar los comandos AT para establecer una conexión TCP/IP con un servidor remoto, y enviar mensajes. Se logró enviar mensajes de prueba y el acumulado de lluvias.
+* Se creó un port forwarding de la dirección ip pública del gateway para reenviar los paquetes recibidos desde el `Tipping Bucket Rain Gause` a un host de la red que hace de servidor.
+* Estoy aprendiendo a utilizar el módulo GPS NEO-6M. Para ello se utilizará la librería `TinyGps++`.
 
-Siguiendo el Datasheet del SIM800L se conectan capacitores para filtrar posibles interferencias, un diodo Zener de 3.9V para proteger el módulo, y resistencias en Tx y Rx (dado que el micro trabaja en 3.3 V).
+#### Por hacer
+* Terminar la librería gps y lograr leer los datos por puerto serie.
+* Combinar las librerías para que el proyecto cumpla los requerimientos.
+* Mejorar el estilo de código de las librerías agregadas.
 
-Las primeras pruebas se hacen con un kit ESP32 devkit. Se configura para poder enviar AT commands y de ese mode aprender a utilizar el módulo.
+En la tabla 1 podemos ver el estado de los requerimientos.
 
-Se compró un sim de la compañía `Claro`.
+| Grupo de Requerimiento         | ID de Requerimiento                       | Descripción                                                                                                                                                                                                   | Estado               |
+|--------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| Sensado                        | 1.1                                       | El sistema medirá precipitaciones con una resolución de 0,2 mm.                                                                                                                                               |OK                    |
+| Sensado                        | 1.2                                       | El sistema medirá latitud y longitud con un error menor a 100 m.                                                                                                                                              |EN PROGRESO           |
+| Sensado                        | 1.3                                       | El sistema dispondrá de las mediciones de precipitación de los últimos 100 días.                                                                                                                              |OK                    |
+| Conectividad                   | 2.1                                       | El sistema enviará datos a un servidor externo.                                                                                                                                                               |OK                    |
+| Conectividad                   | 2.2                                       | En caso de haber mala conectividad, el dispositivo almacenará los datos hasta que la conexión se restablezca.                                                                                                 |OK                    |
+| Mecánica                       | 3.1                                       | El sistema medirá oscilaciones de una cubeta basculante.                                                                                                                                                      |SIMULADO              |
+| Mecánica                       | 3.2                                       | El diseño aerodinámico del sistema impedirá las oscilaciones espurias (falsas oscilaciones por viento o golpes).                                                                                              |NO                    |
+| Alimentación                   | 4.1                                       | El sistema será alimentado con baterías AA.                                                                                                                                                                   |NO                    |
+| Alimentación                   | 4.2                                       | El sistema deberá recargar las baterías utilizando paneles solares.                                                                                                                                           |NO                    |
+| Alimentación                   | 4.3                                       | El sistema podrá admitir carga por transformador en caso de haber energía de la red disponible en el lote.                                                                                                    |NO                    |
+| Configuración                  | 5.1                                       | El dispositivo se conectará automáticamente con el servidor una vez encendido.                                                                                                                                |OK                    |
+| Configuración                  | 5.2                                       | El dispositivo podrá medir precipitaciones una vez encendido, incluso en el lapso en el que el sistema se conecta con el servidor.                                                                            |OK                    |
+| Tiempo de Ejecución            | 6.1                                       | El proyecto se entregará antes del 17 de Septiembre de 2024.                                                                                                                                                  |                      |
+| Manual de uso y Documentación  | 7.1                                       | El código del sistema embebido estará disponible en un repositorio git, acompañado de un informe detallado con lista de partes, diagramas de conexión, requerimientos cumplidos, forma de uso y conclusiones. |                      |
+| Costo                          | 8.1                                       | El costo del dispositivo será menor a los 200 dólares.                                                                                                                                                        |OK                    |
 
-Para configurar nuestro módulo, se deben enviar los siguientes comandos AT:
-
-```bash
-
-AT           (Verifica que el módulo esté listo)
-OK
-
-ATE0         (Desactiva el eco)
-OK
-
-AT+CSQ       (Verifica la intensidad de la señal)
-+CSQ: 15,0   (Señal aceptable)
-OK
-
-AT+CREG?     (Verifica si la SIM está registrada en la red)
-+CREG: 0,1   (Registrado)
-OK
-
-AT+CSTT="internet.ctimovil.com.ar","",""  (Configura el APN)
-OK
-
-AT+CIICR     (Activa la conexión GPRS)
-OK
-
-AT+CIFSR     (Obtiene la IP asignada)
-100.72.184.117
-
-AT+CIPSTART="TCP","192.168.1.100","80"  (Establece la conexión TCP)
-OK
-CONNECT OK
-
-AT+CIPSEND   (Prepara el envío de datos)
->
-
-Hello Server (Envía los datos)
-SEND OK
-
-AT+CIPCLOSE  (Cierra la conexión TCP)
-CLOSE OK
-
-AT+CIPSHUT   (Desactiva la conexión GPRS)
-SHUT OK
-
-```
-
-### 15/08/24
-
-Encontré el problema en el módulo sim800L.
-
-Para que conecte, necesita un capacitor que haga de pulmón en los picos de corriente. Puse uno de 1000 uF a la entrada de la alimentación del módulo y automáticamente comenzó a funcionar.
-
-### 18/08/24
-
-Se logró enviar mensajes al server remoto con la siguiente secuencia de comandos:
-
-```bash
-
-AT           (Verifica que el módulo esté listo)
-OK
-
-ATE0         (Desactiva el eco)
-OK
-
-AT+CSQ       (Verifica la intensidad de la señal)
-+CSQ: 15,0   (Señal aceptable)
-OK
-
-AT+CREG?     (Verifica si la SIM está registrada en la red)
-+CREG: 0,1   (Registrado)
-OK
-
-AT+CSTT="wap.gprs.unifon.com.ar","wap","wap"  (Configura el APN)
-OK
-
-AT+CIICR     (Activa la conexión GPRS)
-OK
-
-AT+CIFSR     (Obtiene la IP asignada)
-100.72.184.117
-
-AT+CIPSTART="TCP","192.168.1.100","80"  (Establece la conexión TCP)
-OK
-CONNECT OK
-
-AT+CIPSEND   (Prepara el envío de datos)
->
-
-Hello Server (Envía los datos)
-SEND OK
-
-AT+CIPCLOSE  (Cierra la conexión TCP)
-CLOSE OK
-
-AT+CIPSHUT   (Desactiva la conexión GPRS)
-SHUT OK
-
-```
+Cómo se puede observar, los requerimientos toman uno de los siguientes estados:
+* OK: Requerimiento cumplido
+* En Progreso: Se está trabajando en el requerimiento
+* Simulado (en este caso, el sistema basculante se simuló con un pulsador hasta montar el sistema mecánico).
+* No: Requerimiento no cumplido aún.
