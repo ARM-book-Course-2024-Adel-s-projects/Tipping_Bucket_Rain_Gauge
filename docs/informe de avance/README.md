@@ -7,6 +7,7 @@ Al día 29/08/24, se implementaron varias librerías que ayudarán a la implemen
 * Aprendizaje de uso del módulo SIM800L: Se aprendió a utilizar los comandos AT para establecer una conexión TCP/IP con un servidor remoto, y enviar mensajes. Se logró enviar mensajes de prueba y el acumulado de lluvias.
 * Se creó un port forwarding de la dirección ip pública del gateway para reenviar los paquetes recibidos desde el `Tipping Bucket Rain Gause` a un host de la red que hace de servidor.
 * Estoy aprendiendo a utilizar el módulo GPS NEO-6M. Para ello se utilizará la librería `TinyGps++`.
+* Se crearon scripts de ayuda para levantar el server y comunicarse por puerto serie con el módulo sim800L.
 
 #### Por hacer
 * Terminar la librería gps y lograr leer los datos por puerto serie.
