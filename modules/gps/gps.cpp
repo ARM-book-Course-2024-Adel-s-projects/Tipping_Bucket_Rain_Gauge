@@ -2,7 +2,7 @@
 
 static void displayInfo(void);
 
-static BufferedSerial gpsSerial(PG_14, PG_9, 4800);
+static BufferedSerial gpsSerial(D53, D52, 9600);
 static TinyGPSPlus gps;
 
 void getGpsPosition(void) {
