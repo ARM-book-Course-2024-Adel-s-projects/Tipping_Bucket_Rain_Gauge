@@ -3,6 +3,7 @@
 
 #include "TinyGPSPlus.h"
 #include "serial_interface.h"
+#include "date_and_time.h"
 
 #define LOG
 
@@ -12,6 +13,7 @@ typedef struct {
 } position_t;
 
 void initGps(void);
+void setSystemDateAndTime(void);
 position_t getGpsPosition(void);
 
 #endif

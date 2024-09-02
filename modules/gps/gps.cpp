@@ -1,6 +1,7 @@
 #include "gps.h"
 
 static position_t getPosition(void);
+static void setDate(void);
 
 static BufferedSerial gpsSerial(D53, D52, 9600);
 static TinyGPSPlus gps;
@@ -18,10 +19,19 @@ position_t getGpsPosition(void) {
     return (position_t){0.0, 0.0};
 }
 
+void setSystemDateAndTime(void) {
+    if(gpsSerial.readable()) {
+        char c;
+        gpsSerial.read(&c, 1);
+
+        if(gps.encode(c))
+          setDate();
+    }
+}
+
 static position_t getPosition(void) {
     position_t position = { 0.0, 0.0 };
     if (gps.location.isValid()) {
-        char str[50];
         double lat = gps.location.lat();
         double lon = gps.location.lng();
 
@@ -29,4 +39,17 @@ static position_t getPosition(void) {
         position.lon = lon;
     }
     return position;
+}
+
+static void setDate(void) {
+    if (gps.date.isValid()) {
+        int year = (int) gps.date.year();
+        int month = (int) gps.date.month();
+        int day = (int) gps.date.month();
+        int hour = (int) gps.time.hour();
+        int minute = (int) gps.time.minute();
+        int second = (int) gps.time.second();
+
+        setDateAndTime(year, month, day, hour, minute, second);
+    }
 }
