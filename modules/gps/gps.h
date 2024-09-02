@@ -7,6 +7,11 @@
 #define LOG
 
 void initGps(void);
-void getGpsPosition(void);
+position_t getGpsPosition(void);
+
+typedef struct {
+    double lat;
+    double lon;
+} position_t;
 
 #endif
