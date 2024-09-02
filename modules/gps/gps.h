@@ -6,12 +6,12 @@
 
 #define LOG
 
-void initGps(void);
-position_t getGpsPosition(void);
-
 typedef struct {
     double lat;
     double lon;
 } position_t;
+
+void initGps(void);
+position_t getGpsPosition(void);
 
 #endif
