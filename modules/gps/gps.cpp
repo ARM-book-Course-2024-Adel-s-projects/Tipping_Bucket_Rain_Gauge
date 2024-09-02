@@ -14,6 +14,8 @@ position_t getGpsPosition(void) {
         if(gps.encode(c))
           return getPosition();
     }
+
+    return (position_t){0.0, 0.0};
 }
 
 static position_t getPosition(void) {
