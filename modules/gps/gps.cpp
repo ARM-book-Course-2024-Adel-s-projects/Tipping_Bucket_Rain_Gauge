@@ -45,7 +45,8 @@ static position_t getPosition(void) {
 }
 
 static void setDate(void) {
-    if (gps.date.isValid()) {
+    if (gps.date.isValid() && gps.time.isValid()) {
+        logMessage("Valid!");
         int year = (int) gps.date.year();
         int month = (int) gps.date.month();
         int day = (int) gps.date.month();
