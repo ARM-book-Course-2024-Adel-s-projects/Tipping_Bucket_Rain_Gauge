@@ -27,9 +27,10 @@ void updateTippingBucketRainGauge(void) {
 void sendTestMessage(void) {
     unsigned int rain = getAccumulatedRain();
     position_t pos = getGpsPosition();
+    DateTime_t dateTime = getDateTimeFromEpoch(getCurrentDayRain().epochTime);
 
-    char str[100];
+    char str[200];
 
-    sprintf(str, "Acumulated rain: %d\n\nLat= %lf, Lon=%lf", rain, pos.lat, pos.lon);
+    sprintf(str, "Acumulated rain: %d\n\nLat= %lf, Lon=%lf\n\nDate: %d/%d/%d %d:%d:%d", rain, pos.lat, pos.lon, dateTime.day, dateTime.month, dateTime.year, dateTime.hour, dateTime.minute, dateTime.second);
     sendData(str);
 }
