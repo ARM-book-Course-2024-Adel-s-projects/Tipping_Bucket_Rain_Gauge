@@ -539,6 +539,10 @@ static void checkIfConnectionWasClosed(void) {
     }
 }
 
+bool readyToSendData(void) {
+    return gprsModule.state == READY_TO_SEND_DATA;
+}
+
 static void readString(char* str) {
     int strIndex = 0;
     char c;

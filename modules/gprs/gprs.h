@@ -66,6 +66,7 @@ void updateGprs(void);
 void initGprs(void);
 void startConnection(void);
 bool getConnectionState(void);
+bool readyToSendData(void);
 void sendData(const char*);
 void closeConnection(void);
 
