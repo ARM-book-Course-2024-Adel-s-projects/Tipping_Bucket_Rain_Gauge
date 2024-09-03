@@ -26,7 +26,7 @@
 typedef struct RainGauge {
     unsigned int accumulatedRain;
     time_t epochTime;
-    position_t position;
+    // position_t position;
 } RainGauge_t;
 
 //=====[Function Declarations]================================================
@@ -88,7 +88,7 @@ RainGauge_t getCurrentDayRain(void);
 * @brief Gets the rain gauge position.
 * @returns A position_t struct with information about Latitude and Longitude of the device.
 */
-position_t getRainGaugePosition(void);
+// position_t getRainGaugePosition(void);
 
 /**
 * @brief Updates the RainGauge date and time reading the system RTC.

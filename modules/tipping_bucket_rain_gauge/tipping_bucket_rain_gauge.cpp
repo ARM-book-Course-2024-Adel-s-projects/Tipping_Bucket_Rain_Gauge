@@ -26,7 +26,7 @@ void updateTippingBucketRainGauge(void) {
 
 void sendTestMessage(void) {
     unsigned int rain = getAccumulatedRain();
-    position_t pos = getRainGaugePosition();
+    position_t pos = getGpsPosition();
 
     char str[100];
 

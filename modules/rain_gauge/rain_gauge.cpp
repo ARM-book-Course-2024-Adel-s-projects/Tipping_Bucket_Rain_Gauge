@@ -63,9 +63,9 @@ RainGauge_t* getAllRegistrations() {
     return lastRegistrations;
 }
 
-position_t getRainGaugePosition(void) {
-    return rainGauge.position;
-}
+// position_t getRainGaugePosition(void) {
+//     return rainGauge.position;
+// }
 
 void updateDateAndTime(void) {
     rainGauge.epochTime = time(NULL);
