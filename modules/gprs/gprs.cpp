@@ -541,18 +541,18 @@ static void checkIfConnectionWasClosed(void) {
 
 static void readString(char* str) {
     int strIndex = 0;
-    char byte;
+    char c;
     while(true) {
-        gprsSerial.read(&byte, 1);
+        gprsSerial.read(&c, 1);
 
-        if(byte == '\n') {
+        if(c == '\n') {
             str[strIndex] = '\n';
             str[strIndex + 1] = '\0';
             break;
         }
 
         if(strIndex < MAX_RESPONSE_LENGTH) {
-            str[strIndex++] = byte;
+            str[strIndex++] = c;
         }
     }
 }
