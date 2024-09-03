@@ -7,7 +7,7 @@
 
 #define LOG
 
-typedef struct {
+typedef struct position {
     double lat;
     double lon;
 } position_t;
