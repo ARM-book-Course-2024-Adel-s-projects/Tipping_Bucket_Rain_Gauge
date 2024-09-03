@@ -29,13 +29,15 @@ void updateTippingBucketRainGauge(void) {
 }
 
 static void sendTestMessage(void) {
-    unsigned int rain = getAccumulatedRain();
-    DateTime_t dateTime = getDateTimeFromEpoch(getCurrentDayRain().epochTime);
+    if(readyToSendData()) {
+        unsigned int rain = getAccumulatedRain();
+        DateTime_t dateTime = getDateTimeFromEpoch(getCurrentDayRain().epochTime);
 
-    char str[200];
+        char str[200];
 
-    sprintf(str, "Acumulated rain: %d\n\nLat= %lf, Lon=%lf\n\nDate: %d/%d/%d %d:%d:%d", rain, pos.lat, pos.lon, dateTime.day, dateTime.month, dateTime.year, dateTime.hour, dateTime.minute, dateTime.second);
-    sendData(str);
+        sprintf(str, "Acumulated rain: %d\n\nLat= %lf, Lon=%lf\n\nDate: %d/%d/%d %d:%d:%d", rain, pos.lat, pos.lon, dateTime.day, dateTime.month, dateTime.year, dateTime.hour, dateTime.minute, dateTime.second);
+        sendData(str);
+    }
 }
 
 static void checkGprsConnection(void) {
