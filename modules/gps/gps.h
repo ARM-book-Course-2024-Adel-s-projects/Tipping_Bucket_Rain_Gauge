@@ -13,7 +13,7 @@ typedef struct {
 } position_t;
 
 void initGps(void);
-void setSystemDateAndTime(void);
+bool setSystemDateAndTime(void);
 position_t getGpsPosition(void);
 
 #endif

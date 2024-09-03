@@ -4,7 +4,7 @@ static void sendTestMessage(void);
 
 static Ticker dataSender;
 static Ticker gprsUpdater;
-static Ticker gpsUpdater;
+static systemDateTimeSet = false;
 
 void initTippingBucketRainGauge(void) {
     initRainGauge();
@@ -12,19 +12,24 @@ void initTippingBucketRainGauge(void) {
     startConnection();
     
     dataSender.attach(&sendTestMessage, SERVER_UPDATE_TIME_IN_SECONDS);
-    gpsUpdater.attach(&getGpsPosition, UPDATE_GPS_TIME_IN_SECONDS);
     gprsUpdater.attach(&updateGprs, UPDATE_GPRS_TIME_IN_SECONDS);
 }
 
 void updateTippingBucketRainGauge(void) {
+    if (!systemDateTimeSet && setSystemDateAndTime()) {
+        updateDateAndTime();
+        systemDateTimeSet = true;
+    }
     updateRainMeasure();
     uartTask();
 }
 
 void sendTestMessage(void) {
     unsigned int rain = getAccumulatedRain();
-    char str[12];
+    position_t pos = getRainGaugePosition();
 
-    sprintf(str, "%d", rain);
+    char str[100];
+
+    sprintf(str, "Acumulated rain: %d\n\nLat= %lf, Lon=%lf", rain, pos.lat, pos.lon);
     sendData(str);
 }

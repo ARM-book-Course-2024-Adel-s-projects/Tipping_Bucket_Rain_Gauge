@@ -19,6 +19,7 @@ void initRainGauge() {
     rainGauge.accumulatedRain = 0;
     rainGauge.epochTime = time(NULL);
     registrationsIndex = 0;
+    rainGauge.position = getGpsPosition();
     initDebouncer(&reedSwitchDebouncer);
 }
 
@@ -34,6 +35,7 @@ void resetRainGauge() {
 
 void updateRainMeasure() {
     updateDebouncer(&reedSwitchDebouncer);
+    rainGauge.position = getGpsPosition();
     if(!reedSwitchDebouncer.isADebounce){
         if(isSameDate()) {
             rainGauge.accumulatedRain++;
@@ -59,4 +61,12 @@ RainGauge_t getCurrentDayRain() {
 
 RainGauge_t* getAllRegistrations() {
     return lastRegistrations;
+}
+
+position_t getRainGaugePosition(void) {
+    return rainGauge.position;
+}
+
+void updateDateAndTime(void) {
+    rainGauge.epochTime = time(NULL);
 }

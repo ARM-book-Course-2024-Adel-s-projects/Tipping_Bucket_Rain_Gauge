@@ -7,6 +7,7 @@
 
 #include "debouncer.h"
 #include "date_and_time.h"
+#include "gps.h"
 #include "mbed.h"
 #include <ctime>
 
@@ -25,6 +26,7 @@
 typedef struct RainGauge {
     unsigned int accumulatedRain;
     time_t epochTime;
+    position_t position;
 } RainGauge_t;
 
 //=====[Function Declarations]================================================
@@ -81,6 +83,17 @@ RainGauge_t* getAllRegistrations(void);
 * @returns A RainGauge_t struct with the information of the current day rainfall.
 */
 RainGauge_t getCurrentDayRain(void);
+
+/**
+* @brief Gets the rain gauge position.
+* @returns A position_t struct with information about Latitude and Longitude of the device.
+*/
+position_t getRainGaugePosition(void);
+
+/**
+* @brief Updates the RainGauge date and time reading the system RTC.
+*/
+void updateDateAndTime(void);
 
 //=====[Include Guards - End]=================================================
 

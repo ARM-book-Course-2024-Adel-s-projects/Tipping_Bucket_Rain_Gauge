@@ -19,13 +19,15 @@ position_t getGpsPosition(void) {
     return (position_t){0.0, 0.0};
 }
 
-void setSystemDateAndTime(void) {
+bool setSystemDateAndTime(void) {
     if(gpsSerial.readable()) {
         char c;
         gpsSerial.read(&c, 1);
 
-        if(gps.encode(c))
-          setDate();
+        if(gps.encode(c)) {
+            setDate();
+            return true;  
+        }
     }
 }
 
