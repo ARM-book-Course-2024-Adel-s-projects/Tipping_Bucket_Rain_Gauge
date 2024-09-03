@@ -29,6 +29,7 @@ bool setSystemDateAndTime(void) {
             return true;  
         }
     }
+    return false;
 }
 
 static position_t getPosition(void) {
