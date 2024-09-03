@@ -4,6 +4,7 @@ static void sendTestMessage(void);
 
 static Ticker dataSender;
 static Ticker gprsUpdater;
+static position_t pos = {0.0, 0.0};
 static bool systemDateTimeSet = false;
 
 void initTippingBucketRainGauge(void) {
@@ -16,17 +17,15 @@ void initTippingBucketRainGauge(void) {
 }
 
 void updateTippingBucketRainGauge(void) {
-    if (!systemDateTimeSet && setSystemDateAndTime()) {
-        updateDateAndTime();
-        systemDateTimeSet = true;
-    }
+    setSystemDateAndTime();
+    updateDateAndTime();    
+    pos = getGpsPosition();
     updateRainMeasure();
     uartTask();
 }
 
 void sendTestMessage(void) {
     unsigned int rain = getAccumulatedRain();
-    position_t pos = getGpsPosition();
     DateTime_t dateTime = getDateTimeFromEpoch(getCurrentDayRain().epochTime);
 
     char str[200];
