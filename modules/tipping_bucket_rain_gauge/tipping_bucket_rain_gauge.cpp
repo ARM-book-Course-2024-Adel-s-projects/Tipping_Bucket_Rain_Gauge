@@ -4,7 +4,7 @@ static void sendTestMessage(void);
 
 static Ticker dataSender;
 static Ticker gprsUpdater;
-static systemDateTimeSet = false;
+static bool systemDateTimeSet = false;
 
 void initTippingBucketRainGauge(void) {
     initRainGauge();
