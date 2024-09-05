@@ -14,6 +14,7 @@
 #define CIPSEND "AT+CIPSEND\r\n"
 #define CIPCLOSE "AT+CIPCLOSE\r\n"
 #define CIPSHUT "AT+CIPSHUT\r\n"
+#define RESET "AT+RST\r\n"
 
 #define AT_END "\r\n"
 
