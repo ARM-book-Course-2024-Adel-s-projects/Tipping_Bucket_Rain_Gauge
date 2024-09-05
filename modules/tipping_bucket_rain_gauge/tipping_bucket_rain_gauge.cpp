@@ -17,7 +17,6 @@ void initTippingBucketRainGauge(void) {
     
     dataSender.attach(&sendTestMessage, SERVER_UPDATE_TIME_IN_SECONDS);
     gprsUpdater.attach(&updateGprs, UPDATE_GPRS_TIME_IN_SECONDS);
-    gprsConnectionChecker.attach(&checkGprsConnection, CONNECTION_TIMEOUT);
 }
 
 void updateTippingBucketRainGauge(void) {

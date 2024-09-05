@@ -166,6 +166,7 @@ static void restartModule(void) {
     gprsModule.state = WAITING_FOR_MODULE_RESTART;
     
     gprsSerial.write(&ctrlZ, 1);
+    gprsSerial.write(CIPSHUT, sizeof(CIPSHUT));
     gprsSerial.write(CFUN1_1, sizeof(CFUN1_1));
 
     #ifdef LOG
@@ -540,7 +541,7 @@ static void checkIfConnectionWasClosed(void) {
 }
 
 bool readyToSendData(void) {
-    return gprsModule.state == READY_TO_SEND_DATA;
+    return (gprsModule.state == READY_TO_SEND_DATA);
 }
 
 static void readString(char* str) {

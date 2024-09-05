@@ -10,8 +10,6 @@
 
 #define UPDATE_GPRS_TIME_IN_SECONDS 2.0
 #define SERVER_UPDATE_TIME_IN_SECONDS 60.0
-#define UPDATE_GPS_TIME_IN_SECONDS 10.0
-#define CONNECTION_TIMEOUT 120.0
 
 void initTippingBucketRainGauge(void);
 void updateTippingBucketRainGauge(void);
