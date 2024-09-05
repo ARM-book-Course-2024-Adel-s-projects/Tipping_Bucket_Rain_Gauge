@@ -48,7 +48,7 @@ static void setDate(void) {
     if (gps.date.isValid() && gps.time.isValid()) {
         int year = (int) gps.date.year();
         int month = (int) gps.date.month();
-        int day = (int) gps.date.month();
+        int day = (int) gps.date.day();
         int hour = (int) gps.time.hour();
         int minute = (int) gps.time.minute();
         int second = (int) gps.time.second();
