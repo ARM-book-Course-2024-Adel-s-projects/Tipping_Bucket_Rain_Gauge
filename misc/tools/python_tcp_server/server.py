@@ -4,6 +4,10 @@ HOST = '192.168.0.9'
 PORT = 2323
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Permitir la reutilización de la dirección y el puerto
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 server_socket.bind((HOST, PORT))
 server_socket.listen()
 print(f"Listening in port {PORT}")
