@@ -166,6 +166,7 @@ static void restartModule(void) {
     gprsModule.state = WAITING_FOR_MODULE_RESTART;
     
     gprsSerial.write(&ctrlZ, 1);
+    gprsSerial.write(CIPCLOSE, sizeof(CIPCLOSE));
     gprsSerial.write(CIPSHUT, sizeof(CIPSHUT));
     gprsSerial.write(CFUN1_1, sizeof(CFUN1_1));
 
