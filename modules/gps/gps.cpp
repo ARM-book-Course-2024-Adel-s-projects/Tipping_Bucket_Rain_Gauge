@@ -18,7 +18,7 @@ position_t getGpsPosition(void) {
         gpsSerial.read(&c, 1);
 
         if(gps.encode(c))
-          position = getPosition();
+            getPosition();
     }
 
     return position;
